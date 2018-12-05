@@ -14,13 +14,17 @@ def and_func(a, b):
     return x
 
 
+# LFSR feedback function is the same for all 3 LFSR's.
 def lsfr_func(b1, b2, b3, b4, b5, b6, b7, b8):
     return xor_func(xor_func(xor_func(xor_func(xor_func(xor_func(xor_func(b1, b2), b3), b4), b5), b6), b7), b8)
 
 
 start_seq_L1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # To be discovered by attack
 start_seq_L2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # To be discovered by attack
-start_seq_L3 = [0] * 17 # To be discovered by attack
+start_seq_L3 = [0] * 17  # To be discovered by attack
+res = "11101000000111110010000011000101110110100111000010001011001100011001111000010000" \
+      "01011111010001010111101110101101101000101010101111001011011100011000111100000111" \
+      "101111101110110000101010010101101"
 
 """
 LFSR 1
@@ -28,7 +32,7 @@ LFSR 1
 temp = []
 out = start_seq_L1 + temp
 print(out)
-while len(out) < 100:
-    out.append(1)
-    print(out)
-
+while len(out) < 193:
+    f = lsfr_func(out[-13], out[-11], out[-10], out[-7], out[-6], out[-4], out[-2], out[-1])
+    out.append(f)
+print(len(out), out)
