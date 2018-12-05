@@ -14,20 +14,21 @@ def and_func(a, b):
     return x
 
 
+def lsfr_func(b1, b2, b3, b4, b5, b6, b7, b8):
+    return xor_func(xor_func(xor_func(xor_func(xor_func(xor_func(xor_func(b1, b2), b3), b4), b5), b6), b7), b8)
+
+
+start_seq_L1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # To be discovered by attack
+start_seq_L2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # To be discovered by attack
+start_seq_L3 = [0] * 17 # To be discovered by attack
+
 """
-L1
+LFSR 1
 """
-start_seq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # To be discovered by attack
-seq = []
-print(len(start_seq))
-while len(res_f2) < 10000:
-    s1, s2 = res_f2[-4], res_f2[-3]
-    f = f2_func(s1, s2)
-    res_f2.append(f)
-    c1, c2, c3 = res_f2[-4], res_f2[-3], res_f2[-2]
-    if c1 == 0 and c2 == 0 and c3 == 0:
-        res_NL_f2.append(0)
-    res_NL_f2.append(f)
-if (res_f2[0] == 0 and res_f2[1] == 0 and res_f2[-1] == 0) or\
-        (res_f2[0] == 0 and res_f2[-2] == 0 and res_f2[-1] == 0):
-    res_NL_f2.append(0)
+temp = []
+out = start_seq_L1 + temp
+print(out)
+while len(out) < 100:
+    out.append(1)
+    print(out)
+
