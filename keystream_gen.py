@@ -6,21 +6,6 @@ def xor_func(a, b):
     return x
 
 
-def and_func(a, b):
-    if a and b:
-        x = 1
-    else:
-        x = 0
-    return x
-
-
-def or_func(a, b):
-    if a or b:
-        return 1
-    else:
-        return 0
-
-
 def key_stream_gen(k1, k2, k3):
     res = []
     L1 = lsfr(k1, 13, 11, 10, 7, 6, 4, 2, 1)
@@ -62,19 +47,18 @@ res_seq = "111010000001111100100000110001011101101001110000100010110011000110011
       "01011111010001010111101110101101101000101010101111001011011100011000111100000111" \
       "101111101110110000101010010101101"
 
-"""
-hc start sequences
-"""
-hc_1 = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1]
-hc_2 = [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1]
-hc_3 = [1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0]
+# """
+# hc start sequences
+# """
+# hc_1 = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1]  # prob = 0.7098445595854922
+# hc_2 = [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1]  # prob = 0.8186528497409327
+# hc_3 = [1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0]  # prob = 0.7098445595854922
 
+# Calculating binary start sequence which produces the largest hamming value for LFSR 1
 largest_lfsr1 = 0.0
 k_1 = []
 for x in range(0, 8192):
-    b_string = '{0:013b}'.format(x)
-    b_string = list(b_string)
-    b_string = [int(char) for char in b_string]
+    b_string = [int(char) for char in list('{0:013b}'.format(x))]
     res = lsfr(b_string, 13, 11, 10, 7, 6, 4, 2, 1)
     prob = hamming_func(res)
     if prob > largest_lfsr1:
@@ -82,12 +66,11 @@ for x in range(0, 8192):
         k_1 = b_string
 print(largest_lfsr1, k_1)
 
+# Calculating binary start sequence which produces the largest hamming value for LFSR 2
 largest_lfsr2 = 0.0
 k_2 = []
 for x in range(0, 32768):
-    b_string = '{0:015b}'.format(x)
-    b_string = list(b_string)
-    b_string = [int(char) for char in b_string]
+    b_string = [int(char) for char in list('{0:015b}'.format(x))]
     res = lsfr(b_string, 15, 13, 11, 10, 7, 6, 4, 2)
     prob = hamming_func(res)
     if prob > largest_lfsr2:
@@ -95,12 +78,11 @@ for x in range(0, 32768):
         k_2 = b_string
 print(largest_lfsr2, k_2)
 
+# Calculating binary start sequence which produces the largest hamming value for LFSR 3
 largest_lfsr3 = 0.0
 k_3 = []
 for x in range(0, 131072):
-    b_string = '{0:017b}'.format(x)
-    b_string = list(b_string)
-    b_string = [int(char) for char in b_string]
+    b_string = [int(char) for char in list('{0:017b}'.format(x))]
     res = lsfr(b_string, 17, 16, 13, 10, 8, 5, 4, 2)
     prob = hamming_func(res)
     if prob > largest_lfsr3:
@@ -108,11 +90,12 @@ for x in range(0, 131072):
         k_3 = b_string
 print(largest_lfsr3, k_3)
 
+# Check if our derived key produces the same sequence
 res_total = key_stream_gen(k_1, k_2, k_3)
 res_string = ""
-
 for digit in res_total:
     res_string += str(digit)
 print(res_string)
 print(res_seq)
-print(res_string == res_seq)
+if res_string == res_seq:
+    print("Attack successful")
