@@ -1,11 +1,3 @@
-def xor_func(a, b):
-    if not a != (not b):
-        x = 1
-    else:
-        x = 0
-    return x
-
-
 def key_stream_gen(k1, k2, k3):
     res = []
     L1 = lsfr(k1, 13, 11, 10, 7, 6, 4, 2, 1)
@@ -20,8 +12,8 @@ def key_stream_gen(k1, k2, k3):
 
 
 # LFSR feedback function is the same for all 3 LFSR's.
-def lsfr_func(b1, b2, b3, b4, b5, b6, b7, b8):
-    return xor_func(xor_func(xor_func(xor_func(xor_func(xor_func(xor_func(b1, b2), b3), b4), b5), b6), b7), b8)
+def lsfr_func(*args):
+    return sum(args) % 2
 
 
 # LFSR, given start seq and feedback indices
